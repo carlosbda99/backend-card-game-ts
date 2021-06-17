@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+      "rootDir": "./",
+      "outDir": "../build",
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "esModuleInterop": true,
+    }
+}
+
