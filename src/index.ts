@@ -1,17 +1,19 @@
+import { Request, Response, NextFunction, Router } from 'express'
+import { Connection } from 'typeorm'
 import express from 'express'
-import { createConnection } from 'typeorm'
 
+import { connection } from './db/conn'
+import router from './user/routes'
 
-
-const connection = createConnection().then(connection => {
-    console.log('conectado', connection)
-}).catch(error => console.log(error));
-const app = express()
-
-app.use(express.urlencoded({ extended: true }))
-
-app.get('/', (req, res, next) => {
-    res.send('Hello world')
+connection
+.then( (conn: Connection): void => {
+    console.log('Conectado ao banco com sucesso!')
 })
+.catch( (error: Error): void => console.log(error));
 
-app.listen(8080, () => { console.log('Servidor disponível em http://localhost:8080')})
+const routers: Array<Router> = [router, ]
+
+const app = express()
+app.use(express.urlencoded({ extended: true }))
+app.use(routers)
+app.listen(8080, (): void => { console.log('Servidor disponível em http://localhost:8080') })
