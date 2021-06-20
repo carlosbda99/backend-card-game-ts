@@ -1,45 +1,13 @@
-import { Request, Response, NextFunction, Router } from 'express'
-import { connection } from '../db/conn'
-import { User } from './entity'
+import { Router } from 'express'
+import { deleteUser, findUser, insertUser } from './controller'
 import express from 'express'
 
-const router: Router = express.Router()
+const userRouter: Router = express.Router()
 
-router.post('/user', async (req: Request, res: Response, next: NextFunction) => {
-    const user: User = new User
-    user.username = req.body.username
-    user.first_name = req.body.first_name
-    user.last_name = req.body.last_name
-    user.email = req.body.email;
-    (await connection).manager.save(user)
-    .then( () => {
-        res.send('OK')
-    })
-    .catch( err => {
-        console.log(err)
-        res.status(500).send("Erro")
-    })
-})
+userRouter.post('/user', insertUser)
 
-router.get('/user', async (req: Request, res: Response, next: NextFunction) => {
-    (await connection).manager.find(User, {first_name: "Carlos"})
-    .then( usuario => {
-        console.log( usuario )
-        res.send("Sucesso!")
-    })
-    .catch( err => {
-        res.status(500).send("Erro")
-    })
-})
+userRouter.get('/user', findUser)
 
-router.delete('/user', async (req: Request, res: Response, next: NextFunction) => {
-    (await connection).manager.delete(User, {username: req.body.username})
-    .then( () => {
-        res.send("Sucesso!")
-    })
-    .catch( err => {
-        res.status(500).send("Erro")
-    })
-})
+userRouter.delete('/user', deleteUser)
 
-export default router
+export default userRouter

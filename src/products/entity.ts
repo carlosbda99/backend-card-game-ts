@@ -1,49 +1,36 @@
-const {
-    Entity,
-    Column,
-    PrimaryGeneratedColumn,
-    CreateDateColumn,
-    UpdateDateColumn,
-    Unique
-} = require('typeorm')
+const { Entity, Column, PrimaryGeneratedColumn, UpdateDateColumn, CreateDateColumn } = require('typeorm')
 
 @Entity()
-@Unique(['username'])
-export class User {
+export class Product {
     @PrimaryGeneratedColumn()
     id: number
 
     @Column({
         length: 20
     })
-    username: string
+    name: string
     
     @Column({
         length: 120,
         nullable: true
     })
-    email?: string
+    description?: string
 
     @Column({
-        length: 120
+        default: 0
     })
-    first_name: string
+    stock: number
 
     @Column({
         length: 120,
         nullable: true
     })
-    last_name?: string
+    value?: string
 
     @Column({
         default: true
     })
-    active: boolean
-    
-    @Column("date", {
-        nullable: true
-    })
-    last_login: Date
+    active?: boolean
 
     @CreateDateColumn()
     created_at: Date
